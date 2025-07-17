@@ -42,9 +42,6 @@ function App({ Component, pageProps }: AppProps) {
   const systemTheme = useColorScheme(pageProps.colorScheme);
   const router = useRouter();
 
-  const { colorScheme, setColorScheme } = useMantineColorScheme();
-  setColorScheme(systemTheme);
-
   const [user, setUser] = useState<CurrentUser | null>(pageProps.user);
   const [route, setRoute] = useState<string>(pageProps.route);
 
@@ -73,22 +70,6 @@ function App({ Component, pageProps }: AppProps) {
       if (cookieLanguage) location.reload();
     }
   }, []);
-
-  useEffect(() => {
-    const colorScheme =
-      userPreferences.get("colorScheme") == "system"
-        ? systemTheme
-        : userPreferences.get("colorScheme");
-
-    toggleColorScheme(colorScheme);
-  }, [systemTheme]);
-
-  const toggleColorScheme = (value: MantineColorScheme) => {
-    setColorScheme(value ?? "light");
-    setCookie("mantine-color-scheme", value ?? "light", {
-      sameSite: "lax",
-    });
-  };
 
   const language = useRef(pageProps.language);
   moment.locale(language.current);

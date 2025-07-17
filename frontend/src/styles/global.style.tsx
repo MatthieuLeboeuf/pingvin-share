@@ -1,6 +1,6 @@
 import "@mantine/core/styles.css";
 import {Global} from "@emotion/react";
-import { useColorScheme } from '@mantine/hooks';
+import { useColorScheme } from "@mantine/hooks";
 
 const GlobalStyle = () => {
   const colorScheme = useColorScheme();

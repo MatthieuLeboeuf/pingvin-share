@@ -22,6 +22,7 @@
     "@mantine/modals": "^7.17.8",
     "@mantine/notifications": "^7.17.8",
     "axios": "^1.10.0",
+    "clsx": "^2.1.1",
     "cookies-next": "^6.1.0",
     "file-saver": "^2.0.5",
     "jose": "^6.0.12",

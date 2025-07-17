@@ -1,6 +1,7 @@
-import { createStyles } from "@mantine/core";
+import { createStyles } from "@mantine/emotion";
+import { rgba } from "@mantine/core";
 
-export default createStyles((theme) => ({
+export default createStyles((theme, _, u) => ({
   root: {
     position: "relative",
     zIndex: 1,
@@ -17,7 +18,7 @@ export default createStyles((theme) => ({
     borderTopWidth: 0,
     overflow: "hidden",
 
-    [theme.fn.largerThan("sm")]: {
+    [`@media (min-width: 48em)`]: {
       display: "none",
     },
   },
@@ -30,13 +31,13 @@ export default createStyles((theme) => ({
   },
 
   links: {
-    [theme.fn.smallerThan("sm")]: {
+    [`@media (max-width: 48em)`]: {
       display: "none",
     },
   },
 
   burger: {
-    [theme.fn.largerThan("sm")]: {
+    [`@media (min-width: 48em)`]: {
       display: "none",
     },
   },
@@ -47,21 +48,25 @@ export default createStyles((theme) => ({
     padding: "8px 12px",
     borderRadius: theme.radius.sm,
     textDecoration: "none",
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
+    [u.dark]: {
+      color: theme.colors.dark[0],
+    },
+    [u.light]: {
+      color: theme.colors.gray[7],
+    },
     fontSize: theme.fontSizes.sm,
     fontWeight: 500,
 
     "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
+      [u.dark]: {
+        backgroundColor: theme.colors.dark[6],
+      },
+      [u.light]: {
+        backgroundColor: theme.colors.gray[0],
+      },
     },
 
-    [theme.fn.smallerThan("sm")]: {
+    [`@media (max-width: 48em)`]: {
       borderRadius: 0,
       padding: theme.spacing.md,
     },
@@ -69,12 +74,14 @@ export default createStyles((theme) => ({
 
   linkActive: {
     "&, &:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25)
-          : theme.colors[theme.primaryColor][0],
-      color:
-        theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 3 : 7],
+      [u.dark]: {
+        backgroundColor: rgba(theme.colors[theme.primaryColor][9], 0.25),
+        color: theme.colors[theme.primaryColor][3],
+      },
+      [u.light]: {
+        backgroundColor: theme.colors[theme.primaryColor][0],
+        color: theme.colors[theme.primaryColor][7],
+      },
     },
   },
 }));

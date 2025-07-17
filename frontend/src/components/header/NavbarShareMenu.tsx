@@ -3,7 +3,7 @@ import Link from "next/link";
 import { TbArrowLoopLeft, TbLink } from "react-icons/tb";
 import { FormattedMessage } from "react-intl";
 
-const NavbarShareMneu = () => {
+const NavbarShareMenu = () => {
   return (
     <Menu position="bottom-start" withinPortal>
       <Menu.Target>
@@ -27,4 +27,4 @@ const NavbarShareMneu = () => {
   );
 };
 
-export default NavbarShareMneu;
+export default NavbarShareMenu;

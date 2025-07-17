@@ -25,6 +25,7 @@ import authService from "../services/auth.service";
 import configService from "../services/config.service";
 import userService from "../services/user.service";
 import GlobalStyle from "../styles/global.style";
+import globalStyle from "../styles/mantine.style";
 import Config from "../types/config.type";
 import { CurrentUser } from "../types/user.type";
 import i18nUtil from "../utils/i18n.util";
@@ -88,7 +89,7 @@ function App({ Component, pageProps }: AppProps) {
         defaultLocale={LOCALES.ENGLISH.code}
       >
         <MantineEmotionProvider cache={emotionCache}>
-          <MantineProvider stylesTransform={emotionTransform}>
+          <MantineProvider stylesTransform={emotionTransform} theme={globalStyle}>
             <GlobalStyle />
             <Notifications />
             <ModalsProvider>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { TbDoorExit, TbSettings, TbUser } from "react-icons/tb";
 import useUser from "../../hooks/user.hook";
 import authService from "../../services/auth.service";
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 const ActionAvatar = () => {
   const { user } = useUser();
@@ -16,14 +16,14 @@ const ActionAvatar = () => {
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item component={Link} href="/account" icon={<TbUser size={14} />}>
+        <Menu.Item component={Link} href="/account" leftSection={<TbUser size={14} />}>
           <FormattedMessage id="navbar.avatar.account" />
         </Menu.Item>
         {user!.isAdmin && (
           <Menu.Item
             component={Link}
             href="/admin"
-            icon={<TbSettings size={14} />}
+            leftSection={<TbSettings size={14} />}
           >
             <FormattedMessage id="navbar.avatar.admin" />
           </Menu.Item>
@@ -33,7 +33,7 @@ const ActionAvatar = () => {
           onClick={async () => {
             await authService.signOut();
           }}
-          icon={<TbDoorExit size={14} />}
+          leftSection={<TbDoorExit size={14} />}
         >
           <FormattedMessage id="navbar.avatar.signout" />
         </Menu.Item>

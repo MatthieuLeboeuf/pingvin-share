@@ -49,7 +49,7 @@ const ManageUserTable = ({
                   <td>{user.email}</td>
                   <td>{user.isAdmin && <TbCheck />}</td>
                   <td>
-                    <Group position="right">
+                    <Group justify="right">
                       {user.isLdap ? null : (
                         <ActionIcon
                           variant="light"

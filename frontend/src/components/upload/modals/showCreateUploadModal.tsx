@@ -3,7 +3,6 @@ import {
   Alert,
   Button,
   Checkbox,
-  Col,
   Grid,
   Group,
   MultiSelect,
@@ -258,7 +257,7 @@ const CreateUploadModalBody = ({
 
           <Text
             truncate
-            italic
+            fs="italic"
             size="xs"
             sx={(theme) => ({
               color: theme.colors.gray[6],
@@ -269,18 +268,18 @@ const CreateUploadModalBody = ({
           {!options.isReverseShare && (
             <>
               <Grid align={form.errors.expiration_num ? "center" : "flex-end"}>
-                <Col xs={6}>
+                <Grid.Col>
                   <NumberInput
                     min={1}
                     max={99999}
-                    precision={0}
+                    allowDecimal={false}
                     variant="filled"
                     label={t("upload.modal.expires.label")}
                     disabled={form.values.never_expires}
                     {...form.getInputProps("expiration_num")}
                   />
-                </Col>
-                <Col xs={6}>
+                </Grid.Col>
+                <Grid.Col>
                   <Select
                     disabled={form.values.never_expires}
                     {...form.getInputProps("expiration_unit")}
@@ -329,7 +328,7 @@ const CreateUploadModalBody = ({
                       },
                     ]}
                   />
-                </Col>
+                </Grid.Col>
               </Grid>
               {options.maxExpiration.value == 0 && (
                 <Checkbox
@@ -338,7 +337,7 @@ const CreateUploadModalBody = ({
                 />
               )}
               <Text
-                italic
+                fs="italic"
                 size="xs"
                 sx={(theme) => ({
                   color: theme.colors.gray[6],
@@ -388,11 +387,11 @@ const CreateUploadModalBody = ({
                     data={form.values.recipients}
                     placeholder={t("upload.modal.accordion.email.placeholder")}
                     searchable
-                    creatable
+                    // TODO: Reimplement creatable with https://mantine.dev/combobox/?e=MultiSelectCreatable example
                     id="recipient-emails"
                     inputMode="email"
-                    getCreateLabel={(query) => `+ ${query}`}
-                    onCreate={(query) => {
+                    //getCreateLabel={(query: string) => `+ ${query}`}
+                    /*onCreate={(query: string) => {
                       if (!query.match(/^\S+@\S+\.\S+$/)) {
                         form.setFieldError(
                           "recipients",
@@ -406,7 +405,7 @@ const CreateUploadModalBody = ({
                         ]);
                         return query;
                       }
-                    }}
+                    }}*/
                     {...form.getInputProps("recipients")}
                     onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                       // Add email on comma or semicolon
@@ -449,7 +448,6 @@ const CreateUploadModalBody = ({
                   />
                   <NumberInput
                     min={1}
-                    type="number"
                     variant="filled"
                     placeholder={t(
                       "upload.modal.accordion.security.max-views.placeholder",

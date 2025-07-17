@@ -1,4 +1,4 @@
-import { Button, Stack, Text } from "@mantine/core";
+import { Button, Stack, Text, useMantineColorScheme } from "@mantine/core";
 import { useModals } from "@mantine/modals";
 import { ModalsContextProps } from "@mantine/modals/lib/context";
 import moment from "moment";
@@ -33,6 +33,8 @@ const Body = ({ share }: { share: CompletedShare }) => {
 
   const link = `${window.location.origin}/s/${share.id}`;
 
+  const { colorScheme } = useMantineColorScheme();
+
   return (
     <Stack align="stretch">
       <CopyTextField link={link} />
@@ -41,7 +43,7 @@ const Body = ({ share }: { share: CompletedShare }) => {
           size="sm"
           sx={(theme) => ({
             color:
-              theme.colorScheme === "dark"
+              colorScheme === "dark"
                 ? theme.colors.gray[3]
                 : theme.colors.dark[4],
           })}

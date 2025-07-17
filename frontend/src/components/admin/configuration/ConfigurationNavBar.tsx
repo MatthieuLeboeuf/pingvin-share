@@ -1,14 +1,13 @@
 import {
   Box,
   Button,
-  createStyles,
   Group,
-  MediaQuery,
-  Navbar,
   Stack,
   Text,
   ThemeIcon,
+  AppShell
 } from "@mantine/core";
+import { createStyles } from "@mantine/emotion";
 import Link from "next/link";
 import { Dispatch, SetStateAction } from "react";
 import {
@@ -36,14 +35,16 @@ const categories = [
   { name: "Cache", icon: <TbServerBolt /> },
 ];
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme, _, u) => ({
   activeLink: {
-    backgroundColor: theme.fn.variant({
-      variant: "light",
-      color: theme.primaryColor,
-    }).background,
-    color: theme.fn.variant({ variant: "light", color: theme.primaryColor })
-      .color,
+    [u.dark]: {
+      backgroundColor: theme.colors.dark[6],
+      color: theme.colors.dark[0],
+    },
+    [u.light]: {
+      backgroundColor: theme.colors.gray[0],
+      color: theme.colors.gray[7],
+    },
 
     borderRadius: theme.radius.sm,
     fontWeight: 600,
@@ -61,17 +62,16 @@ const ConfigurationNavBar = ({
 }) => {
   const { classes } = useStyles();
   return (
-    <Navbar
+    <AppShell
       p="md"
-      hiddenBreakpoint="sm"
       hidden={!isMobileNavBarOpened}
-      width={{ sm: 200, lg: 300 }}
+      w={{ sm: 200, lg: 300 }}
     >
-      <Navbar.Section>
+      <AppShell.Navbar>
         <Text size="xs" color="dimmed" mb="sm">
           <FormattedMessage id="admin.config.title" />
         </Text>
-        <Stack spacing="xs">
+        <Stack gap="xs">
           {categories.map((category) => (
             <Box
               p="xs"
@@ -104,13 +104,11 @@ const ConfigurationNavBar = ({
             </Box>
           ))}
         </Stack>
-      </Navbar.Section>
-      <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-        <Button mt="xl" variant="light" component={Link} href="/admin">
-          <FormattedMessage id="common.button.go-back" />
-        </Button>
-      </MediaQuery>
-    </Navbar>
+      </AppShell.Navbar>
+      <Button mt="xl" variant="light" component={Link} href="/admin">
+        <FormattedMessage id="common.button.go-back" />
+      </Button>
+    </AppShell>
   );
 };
 

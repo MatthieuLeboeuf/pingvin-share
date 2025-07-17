@@ -3,7 +3,6 @@ import { ModalsContextProps } from "@mantine/modals/lib/context";
 import moment from "moment";
 import { FormattedMessage } from "react-intl";
 import { translateOutsideContext } from "../../hooks/useTranslate.hook";
-import { FileMetaData } from "../../types/File.type";
 import { MyShare } from "../../types/share.type";
 import { byteToHumanSizeString } from "../../utils/fileSize.util";
 import CopyTextField from "../upload/CopyTextField";
@@ -30,7 +29,7 @@ const showShareInformationsModal = (
     title: t("account.shares.modal.share-informations"),
 
     children: (
-      <Stack align="stretch" spacing="md">
+      <Stack align="stretch" gap="md">
         <Text size="sm">
           <b>
             <FormattedMessage id="account.shares.table.id" />:{" "}
@@ -83,11 +82,12 @@ const showShareInformationsModal = (
           )}
           <Progress
             value={shareSizeProgress}
-            label={share.size / maxShareSize >= 0.1 ? formattedShareSize : ""}
             style={{ width: share.size / maxShareSize < 0.1 ? "70%" : "80%" }}
             size="xl"
             radius="xl"
-          />
+          >
+              <Progress.Label>{share.size / maxShareSize >= 0.1 ? formattedShareSize : ""}</Progress.Label>
+          </Progress>
           <Text size="xs" style={{ marginLeft: "4px" }}>
             {formattedMaxShareSize}
           </Text>

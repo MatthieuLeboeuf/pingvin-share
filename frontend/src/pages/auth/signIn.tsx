@@ -32,7 +32,7 @@ const SignIn = ({ redirectPath }: { redirectPath?: string }) => {
     });
   }, []);
 
-  if (isLoading) return <LoadingOverlay overlayOpacity={1} visible />;
+  if (isLoading) return <LoadingOverlay overlayProps={{ blur: 1 }} visible />;
 
   return (
     <>

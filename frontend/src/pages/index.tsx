@@ -1,13 +1,14 @@
 import {
   Button,
   Container,
-  createStyles,
   Group,
   List,
   Text,
   ThemeIcon,
   Title,
+  rgba
 } from "@mantine/core";
+import { createStyles } from "@mantine/emotion";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -18,7 +19,7 @@ import Meta from "../components/Meta";
 import useUser from "../hooks/user.hook";
 import useConfig from "../hooks/config.hook";
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme, _, u) => ({
   inner: {
     display: "flex",
     justifyContent: "space-between",
@@ -30,41 +31,48 @@ const useStyles = createStyles((theme) => ({
     maxWidth: 480,
     marginRight: `calc(${theme.spacing.md} * 3)`,
 
-    [theme.fn.smallerThan("md")]: {
+    [`@media (max-width: 62em)`]: {
       maxWidth: "100%",
       marginRight: 0,
     },
   },
 
   title: {
-    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+    [u.dark]: {
+      color: theme.white,
+    },
+    [u.light]: {
+      color: theme.black,
+    },
     fontSize: 44,
     lineHeight: 1.2,
     fontWeight: 900,
 
-    [theme.fn.smallerThan("xs")]: {
+    [`@media (max-width: 36em)`]: {
       fontSize: 28,
     },
   },
 
   control: {
-    [theme.fn.smallerThan("xs")]: {
+    [`@media (max-width: 36em)`]: {
       flex: 1,
     },
   },
 
   image: {
-    [theme.fn.smallerThan("md")]: {
+    [`@media (max-width: 62em)`]: {
       display: "none",
     },
   },
 
   highlight: {
     position: "relative",
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.fn.rgba(theme.colors[theme.primaryColor][6], 0.55)
-        : theme.colors[theme.primaryColor][0],
+    [u.dark]: {
+      backgroundColor: rgba(theme.colors[theme.primaryColor][6], 0.55),
+    },
+    [u.light]: {
+      backgroundColor: theme.colors[theme.primaryColor][0],
+    },
     borderRadius: theme.radius.sm,
     padding: "4px 12px",
   },

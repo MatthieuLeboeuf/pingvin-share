@@ -1,13 +1,12 @@
 import {
   Center,
-  Col,
-  createStyles,
   Grid,
   Paper,
   Stack,
   Text,
   Title,
 } from "@mantine/core";
+import { createStyles } from "@mantine/emotion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { TbLink, TbRefresh, TbSettings, TbUsers } from "react-icons/tb";
@@ -83,7 +82,7 @@ const Admin = () => {
           <Grid>
             {managementOptions.map((item) => {
               return (
-                <Col xs={6} key={item.route}>
+                <Grid.Col key={item.route}>
                   <Paper
                     withBorder
                     component={Link}
@@ -94,7 +93,7 @@ const Admin = () => {
                     <item.icon color={theme.colors.victoria[8]} size={35} />
                     <Text mt={7}>{item.title}</Text>
                   </Paper>
-                </Col>
+                </Grid.Col>
               );
             })}
           </Grid>

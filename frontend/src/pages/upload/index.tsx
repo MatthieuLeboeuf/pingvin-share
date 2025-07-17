@@ -202,7 +202,7 @@ const Upload = ({
   return (
     <>
       <Meta title={t("upload.title")} />
-      <Group position="right" mb={20}>
+      <Group justify="right" mb={20}>
         <Button
           loading={isUploading}
           disabled={files.length <= 0}
@@ -211,7 +211,7 @@ const Upload = ({
           <FormattedMessage id="common.button.share" />
         </Button>
       </Group>
-      <Dropzone
+        {/*<Dropzone
         title={
           !autoOpenCreateUploadModal && files.length > 0
             ? t("share.edit.append-upload")
@@ -220,7 +220,7 @@ const Upload = ({
         maxShareSize={maxShareSize}
         onFilesChanged={handleDropzoneFilesChanged}
         isUploading={isUploading}
-      />
+      />*/}
       {files.length > 0 && (
         <FileList<FileUpload> files={files} setFiles={setFiles} />
       )}

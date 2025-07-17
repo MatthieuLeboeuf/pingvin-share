@@ -134,7 +134,7 @@ const Body = ({
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
-      <Group position="right">
+      <Group justify="right">
         <Button type="submit" form="accountForm">
           <FormattedMessage id="common.button.save" />
         </Button>

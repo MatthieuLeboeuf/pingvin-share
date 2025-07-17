@@ -92,13 +92,13 @@ const FileList = ({
         <thead>
           <tr>
             <th>
-              <Group spacing="xs">
+              <Group gap="xs">
                 <FormattedMessage id="share.table.name" />
                 <TableSortIcon sort={sort} setSort={setSort} property="name" />
               </Group>
             </th>
             <th>
-              <Group spacing="xs">
+              <Group gap="xs">
                 <FormattedMessage id="share.table.size" />
                 <TableSortIcon sort={sort} setSort={setSort} property="size" />
               </Group>
@@ -114,7 +114,7 @@ const FileList = ({
                   <td>{file.name}</td>
                   <td>{byteToHumanSizeString(parseInt(file.size))}</td>
                   <td>
-                    <Group position="right">
+                    <Group justify="right">
                       {shareService.doesFileSupportPreview(file.name) && (
                         <ActionIcon
                           onClick={() =>

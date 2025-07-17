@@ -1,12 +1,9 @@
-import { createGetInitialProps } from "@mantine/next";
-import Document, { Head, Html, Main, NextScript } from "next/document";
+import NextDocument, { Head, Html, Main, NextScript } from "next/document";
+import createEmotionServer from "@emotion/server/create-instance";
+import { createGetInitialProps } from "@mantine/emotion";
+import { emotionCache } from "../emotion/cache";
 
-const getInitialProps = createGetInitialProps();
-
-export default class _Document extends Document {
-  static getInitialProps = getInitialProps;
-
-  render() {
+export default function Document() {
     return (
       <Html>
         <Head>
@@ -23,5 +20,11 @@ export default class _Document extends Document {
         </body>
       </Html>
     );
-  }
 }
+
+const stylesServer = createEmotionServer(emotionCache);
+
+Document.getInitialProps = createGetInitialProps(
+    NextDocument,
+    stylesServer
+);

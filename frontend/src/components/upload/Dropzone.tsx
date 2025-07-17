@@ -1,5 +1,6 @@
-import { Button, Center, createStyles, Group, Text } from "@mantine/core";
-import { Dropzone as MantineDropzone } from "@mantine/dropzone";
+import { Button, Center, Group, Text } from "@mantine/core";
+import { createStyles } from "@mantine/emotion";
+import {Dropzone as MantineDropzone, FileWithPath} from "@mantine/dropzone";
 import { ForwardedRef, useRef } from "react";
 import { TbCloudUpload, TbUpload } from "react-icons/tb";
 import { FormattedMessage } from "react-intl";
@@ -8,7 +9,7 @@ import { FileUpload } from "../../types/File.type";
 import { byteToHumanSizeString } from "../../utils/fileSize.util";
 import toast from "../../utils/toast.util";
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme, _, u) => ({
   wrapper: {
     position: "relative",
     marginBottom: 30,
@@ -20,10 +21,13 @@ const useStyles = createStyles((theme) => ({
   },
 
   icon: {
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[3]
-        : theme.colors.gray[4],
+    [u.dark]: {
+      color: theme.colors.dark[3],
+    },
+
+    [u.light]: {
+      color: theme.colors.gray[4],
+    },
   },
 
   control: {
@@ -41,7 +45,7 @@ const Dropzone = ({
   title?: string;
   isUploading: boolean;
   maxShareSize: number;
-  onFilesChanged: (files: FileUpload[]) => void;
+  onFilesChanged: (files: FileWithPath[]) => void;
 }) => {
   const t = useTranslate();
 
@@ -55,7 +59,7 @@ const Dropzone = ({
         }}
         disabled={isUploading}
         openRef={openRef as ForwardedRef<() => void>}
-        onDrop={(files: FileUpload[]) => {
+        onDrop={(files: FileWithPath[]) => {
           const fileSizeSum = files.reduce((n, { size }) => n + size, 0);
 
           if (fileSizeSum > maxShareSize) {
@@ -66,7 +70,8 @@ const Dropzone = ({
             );
           } else {
             files = files.map((newFile) => {
-              newFile.uploadingProgress = 0;
+              // TODO: Debug uploading progress with new FileWithPath type
+              //newFile.uploadingProgress = 0;
               return newFile;
             });
             onFilesChanged(files);
@@ -76,13 +81,13 @@ const Dropzone = ({
         radius="md"
       >
         <div style={{ pointerEvents: "none" }}>
-          <Group position="center">
+          <Group justify="center">
             <TbCloudUpload size={50} />
           </Group>
-          <Text align="center" weight={700} size="lg" mt="xl">
+          <Text ta="center" w={700} size="lg" mt="xl">
             {title || <FormattedMessage id="upload.dropzone.title" />}
           </Text>
-          <Text align="center" size="sm" mt="xs" color="dimmed">
+          <Text ta="center" size="sm" mt="xs" color="dimmed">
             <FormattedMessage
               id="upload.dropzone.description"
               values={{ maxSize: byteToHumanSizeString(maxShareSize) }}

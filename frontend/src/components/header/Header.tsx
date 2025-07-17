@@ -2,14 +2,15 @@ import {
   Box,
   Burger,
   Container,
-  createStyles,
   Group,
-  Header as MantineHeader,
   Paper,
   Stack,
   Text,
+  AppShell,
   Transition,
+  rgba
 } from "@mantine/core";
+import { createStyles } from "@mantine/emotion";
 import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -30,7 +31,7 @@ type NavLink = {
   action?: () => Promise<void>;
 };
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme, _, u) => ({
   root: {
     position: "relative",
     zIndex: 1,
@@ -47,7 +48,7 @@ const useStyles = createStyles((theme) => ({
     borderTopWidth: 0,
     overflow: "hidden",
 
-    [theme.fn.largerThan("sm")]: {
+    [`@media (min-width: 48em)`]: {
       display: "none",
     },
   },
@@ -60,13 +61,13 @@ const useStyles = createStyles((theme) => ({
   },
 
   links: {
-    [theme.fn.smallerThan("sm")]: {
+    [`@media (max-width: 48em)`]: {
       display: "none",
     },
   },
 
   burger: {
-    [theme.fn.largerThan("sm")]: {
+    [`@media (min-width: 48em)`]: {
       display: "none",
     },
   },
@@ -77,21 +78,25 @@ const useStyles = createStyles((theme) => ({
     padding: "8px 12px",
     borderRadius: theme.radius.sm,
     textDecoration: "none",
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
+    [u.dark]: {
+      color: theme.colors.dark[0],
+    },
+    [u.light]: {
+      color: theme.colors.gray[7],
+    },
     fontSize: theme.fontSizes.sm,
     fontWeight: 500,
 
     "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
+      [u.dark]: {
+        backgroundColor: theme.colors.dark[6],
+      },
+      [u.light]: {
+        backgroundColor: theme.colors.gray[0],
+      },
     },
 
-    [theme.fn.smallerThan("sm")]: {
+    [`@media (max-width: 48em)`]: {
       borderRadius: 0,
       padding: theme.spacing.md,
     },
@@ -99,12 +104,14 @@ const useStyles = createStyles((theme) => ({
 
   linkActive: {
     "&, &:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25)
-          : theme.colors[theme.primaryColor][0],
-      color:
-        theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 3 : 7],
+      [u.dark]: {
+        backgroundColor: rgba(theme.colors[theme.primaryColor][9], 0.25),
+        color: theme.colors[theme.primaryColor][3],
+      },
+      [u.light]: {
+        backgroundColor: theme.colors[theme.primaryColor][0],
+        color: theme.colors[theme.primaryColor][7],
+      },
     },
   },
 }));
@@ -189,32 +196,34 @@ const Header = () => {
     </>
   );
   return (
-    <MantineHeader height={HEADER_HEIGHT} mb={40} className={classes.root}>
-      <Container className={classes.header}>
-        <Link href="/" passHref>
-          <Group>
-            <Logo height={35} width={35} />
-            <Text weight={600}>{config.get("general.appName")}</Text>
+    <AppShell header={{ height: HEADER_HEIGHT }} mb={40} className={classes.root}>
+      <AppShell.Header>
+        <Container className={classes.header}>
+          <Link href="/" passHref>
+            <Group>
+              <Logo height={35} width={35} />
+              <Text fw={600}>{config.get("general.appName")}</Text>
+            </Group>
+          </Link>
+          <Group gap={5} className={classes.links}>
+            <Group>{items} </Group>
           </Group>
-        </Link>
-        <Group spacing={5} className={classes.links}>
-          <Group>{items} </Group>
-        </Group>
-        <Burger
-          opened={opened}
-          onClick={() => toggleOpened.toggle()}
-          className={classes.burger}
-          size="sm"
-        />
-        <Transition transition="pop-top-right" duration={200} mounted={opened}>
-          {(styles) => (
-            <Paper className={classes.dropdown} withBorder style={styles}>
-              <Stack spacing={0}> {items}</Stack>
-            </Paper>
-          )}
-        </Transition>
-      </Container>
-    </MantineHeader>
+          <Burger
+            opened={opened}
+            onClick={() => toggleOpened.toggle()}
+            className={classes.burger}
+            size="sm"
+          />
+          <Transition transition="pop-top-right" duration={200} mounted={opened}>
+            {(styles) => (
+              <Paper className={classes.dropdown} withBorder style={styles}>
+                <Stack gap={0}> {items}</Stack>
+              </Paper>
+            )}
+          </Transition>
+        </Container>
+      </AppShell.Header>
+    </AppShell>
   );
 };
 

@@ -1,9 +1,8 @@
 import {
-  ColorScheme,
-  ColorSchemeProvider,
+  useMantineColorScheme,
   Container,
   MantineProvider,
-  Stack,
+  Stack, MantineColorScheme,
 } from "@mantine/core";
 import { useColorScheme } from "@mantine/hooks";
 import { ModalsProvider } from "@mantine/modals";
@@ -26,12 +25,16 @@ import authService from "../services/auth.service";
 import configService from "../services/config.service";
 import userService from "../services/user.service";
 import GlobalStyle from "../styles/global.style";
-import globalStyle from "../styles/mantine.style";
 import Config from "../types/config.type";
 import { CurrentUser } from "../types/user.type";
 import i18nUtil from "../utils/i18n.util";
 import userPreferences from "../utils/userPreferences.util";
 import Footer from "../components/footer/Footer";
+import {
+  emotionTransform,
+  MantineEmotionProvider,
+} from "@mantine/emotion";
+import { emotionCache } from "../emotion/cache";
 
 const excludeDefaultLayoutRoutes = ["/admin/config/[category]"];
 
@@ -39,7 +42,8 @@ function App({ Component, pageProps }: AppProps) {
   const systemTheme = useColorScheme(pageProps.colorScheme);
   const router = useRouter();
 
-  const [colorScheme, setColorScheme] = useState<ColorScheme>(systemTheme);
+  const { colorScheme, setColorScheme } = useMantineColorScheme();
+  setColorScheme(systemTheme);
 
   const [user, setUser] = useState<CurrentUser | null>(pageProps.user);
   const [route, setRoute] = useState<string>(pageProps.route);
@@ -79,7 +83,7 @@ function App({ Component, pageProps }: AppProps) {
     toggleColorScheme(colorScheme);
   }, [systemTheme]);
 
-  const toggleColorScheme = (value: ColorScheme) => {
+  const toggleColorScheme = (value: MantineColorScheme) => {
     setColorScheme(value ?? "light");
     setCookie("mantine-color-scheme", value ?? "light", {
       sameSite: "lax",
@@ -102,15 +106,8 @@ function App({ Component, pageProps }: AppProps) {
         locale={language.current}
         defaultLocale={LOCALES.ENGLISH.code}
       >
-        <MantineProvider
-          withGlobalStyles
-          withNormalizeCSS
-          theme={{ colorScheme, ...globalStyle }}
-        >
-          <ColorSchemeProvider
-            colorScheme={colorScheme}
-            toggleColorScheme={toggleColorScheme}
-          >
+        <MantineEmotionProvider cache={emotionCache}>
+          <MantineProvider stylesTransform={emotionTransform}>
             <GlobalStyle />
             <Notifications />
             <ModalsProvider>
@@ -153,8 +150,8 @@ function App({ Component, pageProps }: AppProps) {
                 </UserContext.Provider>
               </ConfigContext.Provider>
             </ModalsProvider>
-          </ColorSchemeProvider>
-        </MantineProvider>
+          </MantineProvider>
+        </MantineEmotionProvider>
       </IntlProvider>
     </>
   );
@@ -167,12 +164,12 @@ App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
     user?: CurrentUser;
     configVariables?: Config[];
     route?: string;
-    colorScheme: ColorScheme;
+    colorScheme: MantineColorScheme;
     language?: string;
   } = {
     route: ctx.resolvedUrl,
     colorScheme:
-      (getCookie("mantine-color-scheme", ctx) as ColorScheme) ?? "light",
+      (getCookie("mantine-color-scheme", ctx) as MantineColorScheme) ?? "light",
   };
 
   if (ctx.req) {

@@ -1,10 +1,10 @@
-> ## ⚠️ Project Archived
+> ## ⚠️ Fork
 >
-> After much consideration, I've chosen to focus my limited time and energy on my other project, [Pocket ID](https://github.com/pocket-id/pocket-id). As a solo developer, I've found it difficult to actively maintain multiple open source projects with the care and attention they deserve.
->
-> If you're interested in continuing this work through a fork, I'd be happy to link to it here in the README.
->
-> Thanks to all the contributors and users who have supported Pingvin Share over the years :)
+> This project is a fork of the original project created by [stonith404](https://github.com/stonith404/pingvin-share)
+> 
+> The first goals are:
+> - Upgrading dependencies
+> - Adapting the code to the new dependency versions
 
 # <div align="center"><img  src="https://user-images.githubusercontent.com/58886915/166198400-c2134044-1198-4647-a8b6-da9c4a204c68.svg" width="40"/> </br>Pingvin Share</div>
 
